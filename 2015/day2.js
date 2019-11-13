@@ -3,7 +3,8 @@ const test2 = [2, 3, 4];
 const test3 = [2, 2, 2];
 
 
-const final = `29x13x26
+const final = `
+29x13x26
 11x11x14
 27x2x5
 6x10x13
@@ -1002,12 +1003,22 @@ const final = `29x13x26
 27x26x11
 3x2x22
 14x3x5
-10x9x8`
+10x9x8
+`
 
-const listTest1 = '1x1x12x2x2'
+const listTest1 = `
+1x1x1
+2x2x2
+3x3x3
+`
 
 function listify(string) {
-
+    return string.split('\n')
+            .filter(char => char != '')
+            .map(
+                str => str.split('x')
+                    .map(num => num = +num)
+                );
 }
 
 function wrappingPaper([l, w, h]) {
@@ -1019,13 +1030,19 @@ function wrappingPaper([l, w, h]) {
 
     [lw, wh, hl].forEach(
         el => {
-            if (el < smallest) {
-                smallest = el;
-            }
+            if (el < smallest) smallest = el;
         }
     )
 
     return lw + wh + hl + (smallest / 2);
 }
 
-console.log(wrappingPaper(test1));
+function calcWrappingPaper(string) {
+    return listify(string).map(wrappingPaper).reduce((acc, val) => acc + val);
+}
+
+console.log(calcWrappingPaper(final))
+
+
+// console.log(wrappingPaper(test1));
+// console.log(listify(listTest1));
